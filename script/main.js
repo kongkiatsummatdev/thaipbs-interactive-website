@@ -818,5 +818,116 @@ function backToMenu() {
     document.getElementById("favFoodSelect").classList.remove("hidden");
 }
 
+/* ======================================================
+   BACKGROUND MUSIC & SOUND CONTROLLER
+====================================================== */
+(function initSoundController() {
+  const bgmAudio = document.getElementById('bgmAudio');
+  const soundToggleBtn = document.getElementById('soundToggleBtn');
+  const soundIcon = document.getElementById('soundIcon');
+  const soundLabel = document.getElementById('soundLabel');
+  const soundVolumeSlider = document.getElementById('soundVolumeSlider');
+
+  if (!bgmAudio || !soundToggleBtn) return;
+
+  let isPlaying = false;
+  let targetVolume = 0.7;
+  let fadeInterval = null;
+
+  // Set initial volume
+  bgmAudio.volume = 0;
+  if (soundVolumeSlider) {
+    soundVolumeSlider.value = targetVolume * 100;
+  }
+
+  function fadeIn(targetVol, duration = 800) {
+    clearInterval(fadeInterval);
+    const stepTime = 50;
+    const steps = duration / stepTime;
+    const volStep = targetVol / steps;
+    
+    fadeInterval = setInterval(() => {
+      if (bgmAudio.volume + volStep < targetVol) {
+        bgmAudio.volume += volStep;
+      } else {
+        bgmAudio.volume = targetVol;
+        clearInterval(fadeInterval);
+      }
+    }, stepTime);
+  }
+
+  function fadeOut(duration = 600, callback) {
+    clearInterval(fadeInterval);
+    const stepTime = 50;
+    const steps = duration / stepTime;
+    const volStep = bgmAudio.volume / steps;
+
+    fadeInterval = setInterval(() => {
+      if (bgmAudio.volume - volStep > 0.02) {
+        bgmAudio.volume -= volStep;
+      } else {
+        bgmAudio.volume = 0;
+        clearInterval(fadeInterval);
+        if (callback) callback();
+      }
+    }, stepTime);
+  }
+
+  const soundIconContainer = soundToggleBtn.querySelector('.sound-icon-container');
+
+  function updateUI(playing) {
+    if (playing) {
+      soundToggleBtn.classList.add('is-playing');
+      if (soundLabel) soundLabel.textContent = 'ปิดเสียงดนตรี';
+      if (soundIconContainer) soundIconContainer.innerHTML = '<i data-lucide="volume-2" id="soundIcon"></i>';
+    } else {
+      soundToggleBtn.classList.remove('is-playing');
+      if (soundLabel) soundLabel.textContent = 'เปิดเสียงดนตรี';
+      if (soundIconContainer) soundIconContainer.innerHTML = '<i data-lucide="volume-x" id="soundIcon"></i>';
+    }
+    if (window.lucide && typeof lucide.createIcons === 'function') {
+      lucide.createIcons();
+    }
+  }
+
+  async function togglePlay() {
+    if (!isPlaying) {
+      try {
+        await bgmAudio.play();
+        isPlaying = true;
+        updateUI(true);
+        fadeIn(targetVolume);
+      } catch (err) {
+        console.warn('Audio playback failed or was blocked by browser policy:', err);
+      }
+    } else {
+      isPlaying = false;
+      updateUI(false);
+      fadeOut(500, () => {
+        bgmAudio.pause();
+      });
+    }
+  }
+
+  soundToggleBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    togglePlay();
+  });
+
+  if (soundVolumeSlider) {
+    soundVolumeSlider.addEventListener('input', (e) => {
+      targetVolume = parseFloat(e.target.value) / 100;
+      if (isPlaying) {
+        bgmAudio.volume = targetVolume;
+      }
+    });
+
+    soundVolumeSlider.addEventListener('click', (e) => {
+      e.stopPropagation();
+    });
+  }
+})();
+
+
 
 

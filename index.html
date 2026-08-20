@@ -21,6 +21,31 @@
 
 <body>
 
+  <!-- ========== FLOATING SOUND CONTROLLER ========== -->
+  <div class="audio-controller-wrapper" id="audioControllerWrapper">
+    <button class="sound-toggle-btn" id="soundToggleBtn" aria-label="เปิด/ปิดเสียงบรรยากาศ" title="เปิด/ปิดเสียงดนตรีบรรยากาศ">
+      <span class="sound-icon-container">
+        <i data-lucide="volume-x" id="soundIcon"></i>
+      </span>
+      <div class="sound-wave" id="soundWave" aria-hidden="true">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      <span class="sound-label" id="soundLabel">เปิดเสียงดนตรี</span>
+    </button>
+    <div class="sound-volume-slider-box" id="volumeSliderBox">
+      <i data-lucide="volume-2" style="width: 15px; height: 15px; color: var(--gold-color);"></i>
+      <input type="range" id="soundVolumeSlider" min="0" max="100" value="70" aria-label="ระดับเสียง" title="ปรับระดับเสียง">
+    </div>
+  </div>
+
+  <audio id="bgmAudio" loop preload="auto">
+    <source src="assets/bgm.mp3" type="audio/mpeg">
+    <source src="assets/audio/bgm.mp3" type="audio/mpeg">
+  </audio>
+
     <!-- พื้นหลัง Parallax -->
       <div class="parallax-container">
     <div class="ingredient" data-speed="0.2"
@@ -678,15 +703,14 @@
     <!-- END timeline-container -->
 
     <!-- NEW WHITE SECTION -->
-<!-- SECTION: เทรนอาหารโลกใหม่ -->
-    <!-- SECTION: เทรนอาหารโลกใหม่ -->
+    <!-- SECTION: กระแสอาหารโลกใหม่ -->
     <section class="white-section">
         <div class="content-container">
             
-            <h2 class="section-title reveal">เทรนอาหารโลกใหม่</h2>
+            <h2 class="section-title reveal">กระแสอาหารโลกใหม่</h2>
 
             <div class="image-box reveal">
-                <img src="assets/images/เทรนอาหารโลกใหม่.png" alt="ภาพเทรนอาหารโลก">
+                <img src="assets/images/เทรนอาหารโลกใหม่.png" alt="ภาพกระแสอาหารโลก">
             </div>
 
             <p class="highlight-text reveal">
@@ -1069,10 +1093,13 @@
             <span class="credit-logo"><img src="assets/images/logos/informatics-msu.png" alt="คณะวิทยาการสารสนเทศ มหาวิทยาลัยมหาสารคาม"></span>
             <span class="credit-logo"><img src="assets/images/logos/msu-university.png" alt="มหาวิทยาลัยมหาสารคาม"></span>
             <span class="credit-logo"><img src="assets/images/logos/tcij.jpg" alt="Thai PBS"></span>
+            <span class="credit-logo"><img src="assets/images/logos/thaipbs-locals.png" alt="Thai PBS Locals"></span>
         </div>
         <p class="credit-text">
-            บทความเชิงลึกเป็นส่วนหนึ่งของโครงการรณรงค์ความตระหนักรู้ด้านภัยพิบัติ<br>
-            © 2025 Longform Article Project
+            ผลงานวารสารศาสตร์เชิงปฏิสัมพันธ์ (Interactive Journalism) ว่าด้วยวิวัฒนาการและโอกาสของอาหารไทยสู่ครัวโลก<br>
+            ภายใต้ความร่วมมือระหว่าง Thai PBS Locals และ คณะวิทยาการสารสนเทศ มหาวิทยาลัยมหาสารคาม<br>
+            ดนตรีประกอบ: Audio Collect และ Suandok sound therapy<br>
+            © 2025-2026 Thai PBS Locals & IT MSU
         </p>
     </footer>
 
